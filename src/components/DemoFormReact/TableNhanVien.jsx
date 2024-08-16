@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table, Tag } from 'antd';
 import ButtonCustom from './ButtonCustom';
 
@@ -57,5 +56,6 @@ const TableNhanVien = ({ data, handleDeleteNhanVien, getInfoNhanVien, filteredNh
         </div>
     )
 }
+
 
 export default TableNhanVien

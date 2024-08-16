@@ -37,20 +37,20 @@ const DemoFormReact = () => {
 
     },
     // yup.object sẽ nhận được 1 object chứa thông tin các validation dành cho các field ở initialize
-    // validationSchema: yup.object({
-    //   email: yup.string().required("Vui lòng không bỏ trống"),
-    //   // msnv: gồm 4 đến 8 ký tự, không bỏ trống
-    //   // Số điện thoại: Nhập đúng số diện thoại Việt Nam (regex)
-    //   //matkhau: bao gồm ít nhất ký tự đực biệt , ít nhất chữ cái viết hoa và có ít nhất số
-    //   // giới tính: bắt buộc chọn
-    //   //họ tên: Phải là chữ
-    //   msnv: yup.string().required("Vui lòng không được bỏ trống").min(4, "MSNV phải có ít nhất 4 ký tự").max(8, "MSNV phải có ít nhất 8 ký tự"),
-    //   soDienThoai: yup.string().matches(/^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$/, "vui lòng nhập đúng số điện thoại Việt"),
-    //   matKhau: yup.string().matches(/^[A-Za-zÀ-ỹ\s]+$/, "Vui lòng tạo mật khẩu có ít nhất một kí tự đặc biệt, 1 chức cái viết hoa và 1 số"),
-    //   hoTen: yup.string().matches(/^[a-zA-Z\s]+$/, "Họ tên phải là chữ"),
-    //   ngaySinh: yup.string().required("Vui lòng chọn ngày sinh"),
-    //   gioiTinh: yup.string().required("Vui lòng chọn giới tính")
-    // })
+    validationSchema: yup.object({
+      email: yup.string().required("Vui lòng không bỏ trống"),
+      // msnv: gồm 4 đến 8 ký tự, không bỏ trống
+      // Số điện thoại: Nhập đúng số diện thoại Việt Nam (regex)
+      //matkhau: bao gồm ít nhất ký tự đực biệt , ít nhất chữ cái viết hoa và có ít nhất số
+      // giới tính: bắt buộc chọn
+      //họ tên: Phải là chữ
+      msnv: yup.string().required("Vui lòng không được bỏ trống").min(4, "MSNV phải có ít nhất 4 ký tự").max(8, "MSNV phải có ít nhất 8 ký tự"),
+      soDienThoai: yup.string().matches(/^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$/, "vui lòng nhập đúng số điện thoại Việt"),
+      matKhau: yup.string().matches(/^[A-Za-zÀ-ỹ\s]+$/, "Vui lòng tạo mật khẩu có ít nhất một kí tự đặc biệt, 1 chức cái viết hoa và 1 số"),
+      hoTen: yup.string().matches(/^[a-zA-Z\s]+$/, "Họ tên phải là chữ"),
+      ngaySinh: yup.string().required("Vui lòng chọn ngày sinh"),
+      gioiTinh: yup.string().required("Vui lòng chọn giới tính")
+    })
   });
   // console.log(errors);
   // console.log(touched);
