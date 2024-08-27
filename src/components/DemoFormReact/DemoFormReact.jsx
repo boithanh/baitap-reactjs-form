@@ -1,4 +1,4 @@
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import React, { useContext, useState } from "react";
 import InputCustom from "./InputCustom";
 import { DatePicker, notification } from "antd";
@@ -10,8 +10,9 @@ import { NotificationContext } from "../../App";
 const DemoFormReact = () => {
   const [arrNhanVien, setArrNhanVien] = useState([]);
   const [isDisable, setDisable] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Trạng thái lưu giá trị tìm kiếm
-  const [filteredNhanVien, setFilteredNhanVien] = useState(arrNhanVien); // Trạng thái lưu kết quả lọc
+  const [filteredNhanVien, setFilteredNhanVien] = useState([...arrNhanVien]); // Trạng thái lưu kết quả lọc
 
   // handleBlur khi ng dùng bấm con trỏ chuột focus vào input sau đó ko focus
   const { handleSubmit, handleChange, values, setFieldValue, setValues, errors, handleBlur, touched } = useFormik({
@@ -33,9 +34,11 @@ const DemoFormReact = () => {
       // const newArrNhanVien = [...arrNhanVien];
       // setArrNhanVien(newArrNhanVien);
       setArrNhanVien([...arrNhanVien, value]);
+      // console.log(filteredNhanVien)
       resetForm();
 
     },
+
     // yup.object sẽ nhận được 1 object chứa thông tin các validation dành cho các field ở initialize
     validationSchema: yup.object({
       email: yup.string().required("Vui lòng không bỏ trống"),
@@ -46,7 +49,7 @@ const DemoFormReact = () => {
       //họ tên: Phải là chữ
       msnv: yup.string().required("Vui lòng không được bỏ trống").min(4, "MSNV phải có ít nhất 4 ký tự").max(8, "MSNV phải có ít nhất 8 ký tự"),
       soDienThoai: yup.string().matches(/^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$/, "vui lòng nhập đúng số điện thoại Việt"),
-      matKhau: yup.string().matches(/^[A-Za-zÀ-ỹ\s]+$/, "Vui lòng tạo mật khẩu có ít nhất một kí tự đặc biệt, 1 chức cái viết hoa và 1 số"),
+      // matKhau: yup.string().matches(/^[A-Za-zÀ-ỹ\s]+$/, "Vui lòng tạo mật khẩu có ít nhất một kí tự đặc biệt, 1 chức cái viết hoa và 1 số"),
       hoTen: yup.string().matches(/^[a-zA-Z\s]+$/, "Họ tên phải là chữ"),
       ngaySinh: yup.string().required("Vui lòng chọn ngày sinh"),
       gioiTinh: yup.string().required("Vui lòng chọn giới tính")
@@ -61,9 +64,12 @@ const DemoFormReact = () => {
     if (index != -1) {
       newArrNhanVien.splice(index, 1)
       setArrNhanVien(newArrNhanVien)
+      setIsSearching(false);
+      console.log(newArrNhanVien);
+
 
     } else {
-      valueContext.handleNotification("error", "Có lỗi xảy ra người dùng không có trong hệ thống")
+      // valueContext.handleNotification("error", "Có lỗi xảy ra người dùng không có trong hệ thống")
     }
   }
   const getInfoNhanVien = (msnv) => {
@@ -81,6 +87,7 @@ const DemoFormReact = () => {
     })
     if (nhanVien) {
       setValues(nhanVien);
+      setIsSearching(false);
       setDisable(true);
     }
   }
@@ -101,6 +108,7 @@ const DemoFormReact = () => {
         matKhau: values.matKhau,
       };
       setArrNhanVien(newArrNhanVien);
+      setIsSearching(false);
     } else {
       alert("Không tìm thấy nhân viên cần cập nhật!");
     }
@@ -111,8 +119,10 @@ const DemoFormReact = () => {
     const filter = arrNhanVien.filter((nv) =>
       nv.hoTen.toLowerCase().includes(lowerCaseWord)
     );
-
+    console.log(filter)
     setFilteredNhanVien(filter); // Cập nhật kết quả lọc
+    console.log(filter);
+
   };
 
   return (
@@ -247,12 +257,14 @@ const DemoFormReact = () => {
           touched={touched.matKhau}
           value={searchTerm}
           onChange={(e) => {
+            searchNhanVien(e.target.value)
             setSearchTerm(e.target.value);  // Cập nhật từ khóa tìm kiếm
-            searchNhanVien(e.target.value); // Thực hiện tìm kiếm mỗi khi từ khóa thay đổi
+            // setFilteredNhanVien(); // Thực hiện tìm kiếm mỗi khi từ khóa thay đổi
+            setIsSearching(true);
           }}
         />
       </div>
-      <TableNhanVien data={arrNhanVien} handleDeleteNhanVien={deleteNhanVien} getInfoNhanVien={getInfoNhanVien} searchNhanVien={searchNhanVien} filteredNhanVien={filteredNhanVien} />
+      <TableNhanVien data={isSearching ? filteredNhanVien : arrNhanVien} handleDeleteNhanVien={deleteNhanVien} getInfoNhanVien={getInfoNhanVien} />
     </div>
   );
 };

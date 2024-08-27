@@ -2,7 +2,7 @@ import { Table, Tag } from 'antd';
 import ButtonCustom from './ButtonCustom';
 
 
-const TableNhanVien = ({ data, handleDeleteNhanVien, getInfoNhanVien, filteredNhanVien }) => {
+const TableNhanVien = ({ data, handleDeleteNhanVien, getInfoNhanVien }) => {
     const columns = [
         {   // Tiêu đề các cột
             title: "MSNV",
@@ -45,6 +45,7 @@ const TableNhanVien = ({ data, handleDeleteNhanVien, getInfoNhanVien, filteredNh
                     }} />
                     <ButtonCustom content={"Sửa"} bgColor='bg-purple-500' onClick={() => {
                         getInfoNhanVien(record.msnv);
+                        document.querySelector("form").scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
                     }} />
                 </>
             ),
